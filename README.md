@@ -2,6 +2,14 @@
 
 一个基于 Material Design 设计的 Android 登录注册应用，提供美观的用户界面和完整的本地账户管理功能。
 
+## 架构说明
+
+本项目已重构为 **MVVM 架构**，核心页面（登录、注册、主页面）均采用 ViewModel 进行业务逻辑与 UI 解耦，提升了代码的可维护性和可扩展性。
+
+- **Model**：数据实体与本地存储（如 User.java）
+- **View**：Activity 负责 UI 展示和事件监听
+- **ViewModel**：负责业务逻辑、输入校验、数据状态管理，使用 LiveData 实现 UI 响应式更新
+
 ## 功能特点
 
 ### 登录功能
@@ -35,6 +43,8 @@
 - 响应式布局
 - 输入框实时验证
 - 数据持久化存储
+- **MVVM 架构，业务逻辑与 UI 解耦**
+- **ViewModel + LiveData 实现响应式 UI**
 
 ## 界面预览
 
@@ -72,6 +82,9 @@
 ```
 app/src/main/
 ├── java/com/example/loginandregister/
+│   ├── model/                // 数据实体类（如 User.java）
+│   ├── repository/           // 数据仓库（可扩展）
+│   ├── viewmodel/            // ViewModel 层（如 LoginViewModel.java 等）
 │   ├── LoginActivity.java    // 登录页面
 │   ├── RegisterActivity.java // 注册页面
 │   └── MainActivity.java     // 主页面
