@@ -1,14 +1,13 @@
 package com.example.loginandregister.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.example.loginandregister.model.User;
+import com.example.loginandregister.repository.UserRepository;
 
 public class RegisterViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> registerResult = new MutableLiveData<>();
@@ -16,9 +15,11 @@ public class RegisterViewModel extends AndroidViewModel {
     private final MutableLiveData<String> passwordError = new MutableLiveData<>();
     private final MutableLiveData<String> confirmPasswordError = new MutableLiveData<>();
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
+    private final UserRepository userRepository;
 
     public RegisterViewModel(@NonNull Application application) {
         super(application);
+        userRepository = new UserRepository(application);
     }
 
     public LiveData<Boolean> getRegisterResult() { return registerResult; }
@@ -53,14 +54,18 @@ public class RegisterViewModel extends AndroidViewModel {
             confirmPasswordError.setValue("两次输入的密码不一致");
             return;
         }
-        SharedPreferences sp = getApplication().getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        if (sp.contains(username)) {
-            usernameError.setValue("用户名已存在");
-            return;
-        }
-        sp.edit().putString(username, password).apply();
-        toastMessage.setValue("注册成功");
-        registerResult.setValue(true);
+        // 异步检查用户名唯一性
+        userRepository.getUserByUsername(username, user -> {
+            if (user != null) {
+                usernameError.postValue("用户名已存在");
+            } else {
+                // 异步插入用户
+                userRepository.registerUser(new User(username, password), id -> {
+                    toastMessage.postValue("注册成功");
+                    registerResult.postValue(true);
+                });
+            }
+        });
     }
 
     private boolean isPasswordValid(String password) {

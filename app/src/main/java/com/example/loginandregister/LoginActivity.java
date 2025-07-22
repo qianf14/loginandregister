@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         loginViewModel.getLoginResult().observe(this, result -> {
             if (result != null && result) {
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, HomeActivity.class));
                 finish();
             }
         });

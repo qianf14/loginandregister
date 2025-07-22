@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.loginandregister.viewmodel.MainViewModel;
 import com.google.android.material.button.MaterialButton;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     private TextView tvUsername;
     private MaterialButton btnLogout;
     private MainViewModel mainViewModel;

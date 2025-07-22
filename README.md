@@ -87,7 +87,7 @@ app/src/main/
 │   ├── viewmodel/            // ViewModel 层（如 LoginViewModel.java 等）
 │   ├── LoginActivity.java    // 登录页面
 │   ├── RegisterActivity.java // 注册页面
-│   └── MainActivity.java     // 主页面
+│   └── HomeActivity.java     // 主页面（原MainActivity）
 └── res/
     ├── layout/
     │   ├── activity_login.xml    // 登录页面布局
