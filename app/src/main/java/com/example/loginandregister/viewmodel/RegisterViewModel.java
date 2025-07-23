@@ -9,14 +9,27 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.loginandregister.model.User;
 import com.example.loginandregister.repository.UserRepository;
 
+/**
+ * 注册页面的ViewModel，负责注册业务逻辑、输入校验和与数据库的交互。
+ * 通过LiveData将状态和错误信息通知UI。
+ */
 public class RegisterViewModel extends AndroidViewModel {
+    // 注册结果，true表示注册成功
     private final MutableLiveData<Boolean> registerResult = new MutableLiveData<>();
+    // 用户名输入错误提示
     private final MutableLiveData<String> usernameError = new MutableLiveData<>();
+    // 密码输入错误提示
     private final MutableLiveData<String> passwordError = new MutableLiveData<>();
+    // 确认密码输入错误提示
     private final MutableLiveData<String> confirmPasswordError = new MutableLiveData<>();
+    // Toast消息提示
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
+    // 用户数据仓库
     private final UserRepository userRepository;
 
+    /**
+     * 构造方法，初始化UserRepository。
+     */
     public RegisterViewModel(@NonNull Application application) {
         super(application);
         userRepository = new UserRepository(application);
@@ -28,12 +41,19 @@ public class RegisterViewModel extends AndroidViewModel {
     public LiveData<String> getConfirmPasswordError() { return confirmPasswordError; }
     public LiveData<String> getToastMessage() { return toastMessage; }
 
+    /**
+     * 注册方法，包含输入校验和异步数据库操作。
+     * @param username 用户名
+     * @param password 密码
+     * @param confirmPassword 确认密码
+     */
     public void register(String username, String password, String confirmPassword) {
         usernameError.setValue(null);
         passwordError.setValue(null);
         confirmPasswordError.setValue(null);
         toastMessage.setValue(null);
 
+        // 输入校验
         if (TextUtils.isEmpty(username)) {
             usernameError.setValue("请输入用户名");
             return;
@@ -68,6 +88,9 @@ public class RegisterViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * 密码格式校验，要求至少8位且包含字母和数字。
+     */
     private boolean isPasswordValid(String password) {
         if (password.length() < 8) return false;
         boolean hasLetter = false;
