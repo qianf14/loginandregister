@@ -3,11 +3,13 @@ package com.example.loginandregister;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.loginandregister.viewmodel.HomeViewModel;
 import com.example.loginandregister.model.Person;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * 主页面Activity，负责显示当前登录用户和跳转到详情页面。
@@ -23,6 +25,9 @@ public class HomeActivity extends AppCompatActivity {
     // 主页面ViewModel（合并后的）
     private HomeViewModel homeViewModel;
 
+    // 主页面Person输入框外层布局
+    private TextInputLayout tusName, tusAge;
+
     /**
      * Activity生命周期-创建，初始化UI和ViewModel，设置事件监听。
      */
@@ -35,10 +40,18 @@ public class HomeActivity extends AppCompatActivity {
         tvUsername = findViewById(R.id.tvUsername);
         btnLogout = findViewById(R.id.btnLogout);
         btnDetail = findViewById(R.id.btnDetail);
+        tusName = findViewById(R.id.tusName);
+        tusAge = findViewById(R.id.tusAge);
         // 初始化合并后的HomeViewModel
         homeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(HomeViewModel.class);
 
         // 观察ViewModel的LiveData，自动响应UI变化
+        homeViewModel.getUsernameError().observe(this, error -> {
+            if (tusName != null) tusName.setError(error);
+        });
+        homeViewModel.getAgeError().observe(this, error -> {
+            if (tusAge != null) tusAge.setError(error);
+        });
         homeViewModel.getCurrentUsername().observe(this, username -> {
             tvUsername.setText("当前用户：" + username);
         });
@@ -62,9 +75,26 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(v -> homeViewModel.logout());
         // 跳转详情按钮点击事件，设置Person对象到ViewModel
         btnDetail.setOnClickListener(v -> {
-            // 这里可根据实际业务动态生成Person对象
-            Person person = new Person("张三", 25);
-            homeViewModel.setJumpPerson(person);
+            try {
+                String name = "";
+                int age = 0;
+                
+                if (tusName != null && tusName.getEditText() != null) {
+                    name = tusName.getEditText().getText().toString().trim();
+                }
+                
+                if (tusAge != null && tusAge.getEditText() != null) {
+                    String ageString = tusAge.getEditText().getText().toString().trim();
+                    if (!ageString.isEmpty()) {
+                        age = Integer.parseInt(ageString);
+                    }
+                }
+                
+                Person person = new Person(name, age);
+                homeViewModel.setJumpPerson(person);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "请输入有效的年龄", Toast.LENGTH_SHORT).show();
+            }
         });
     }
-} 
+}

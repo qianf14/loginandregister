@@ -31,7 +31,7 @@ public class LoginViewModel extends AndroidViewModel {
     // 密码输入错误提示
     private final MutableLiveData<String> passwordError = new MutableLiveData<>();
     // Toast消息提示
-    private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
+    private MutableLiveData<String> toastMessage = new MutableLiveData<>();
     // 最近登录用户列表
     private final MutableLiveData<ArrayList<String>> recentUsers = new MutableLiveData<>();
     // 自动填充密码
@@ -156,7 +156,7 @@ public class LoginViewModel extends AndroidViewModel {
             userList.remove(0);
             recentUsersSet = new HashSet<>(userList);
         }
-        sp.edit().putStringSet("recentUsers", recentUsersSet).apply();
+        sp.edit().putStringSet("recent_users", recentUsersSet).apply();
         recentUsers.postValue(new ArrayList<>(recentUsersSet));
     }
-} 
+}

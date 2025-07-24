@@ -20,6 +20,10 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> logoutEvent = new MutableLiveData<>();
     // LiveData用于暴露要跳转的Person对象
     private final MutableLiveData<Person> jumpPersonLiveData = new MutableLiveData<>();
+    // 用户名和年龄错误提示
+    private final MutableLiveData<String> usernameError = new MutableLiveData<>();
+    // 年龄错误提示
+    private final MutableLiveData<String> ageError = new MutableLiveData<>();
 
     /**
      * 构造方法，初始化并加载当前用户。
@@ -41,6 +45,14 @@ public class HomeViewModel extends AndroidViewModel {
      * 获取要跳转的Person对象的LiveData
      */
     public LiveData<Person> getJumpPerson() { return jumpPersonLiveData; }
+    /**
+     * 获取用户名和年龄错误提示的LiveData
+     */
+    public LiveData<String> getUsernameError() { return usernameError; }
+    /**
+     * 获取年龄错误提示的LiveData
+     */
+    public LiveData<String> getAgeError() { return ageError; }
 
     /**
      * 加载当前登录用户。
@@ -65,6 +77,22 @@ public class HomeViewModel extends AndroidViewModel {
      * @param person Person对象
      */
     public void setJumpPerson(Person person) {
+        usernameError.setValue(null);
+        ageError.setValue(null);
+        
+        // 检查用户名是否为空
+        if (person.getName() == null || person.getName().isEmpty()) {
+            usernameError.setValue("请输入用户名");
+            return;
+        }
+        
+        // 检查年龄是否有效
+        if (person.getAge() <= 0) {
+            ageError.setValue("请输入有效年龄");
+            return;
+        }
+        
+        // 只有验证通过才设置跳转对象
         jumpPersonLiveData.setValue(person);
     }
-} 
+}

@@ -30,12 +30,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/btnDetail"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tusName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="用户名"
+        app:helperText="请输入Person名称"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/tvUsername">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tusAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:hint="年龄"
+        app:helperText="请输入Person年龄"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/tvUsername">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDetail"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:text="跳转到详情页面"
-        android:layout_marginTop="24dp" />
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
