@@ -5,20 +5,23 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import com.example.loginandregister.viewmodel.MainViewModel;
+import com.example.loginandregister.viewmodel.HomeViewModel;
+import com.example.loginandregister.model.Person;
 import com.google.android.material.button.MaterialButton;
 
 /**
- * 主页面Activity，负责显示当前登录用户和退出登录功能。
- * 通过ViewModel实现业务逻辑与UI解耦。
+ * 主页面Activity，负责显示当前登录用户和跳转到详情页面。
+ * 通过HomeViewModel管理所有主页面相关数据和事件，MVVM解耦。
  */
 public class HomeActivity extends AppCompatActivity {
     // 当前用户名显示控件
     private TextView tvUsername;
     // 退出登录按钮
     private MaterialButton btnLogout;
-    // 主页面业务ViewModel
-    private MainViewModel mainViewModel;
+    // 跳转详情按钮
+    private MaterialButton btnDetail;
+    // 主页面ViewModel（合并后的）
+    private HomeViewModel homeViewModel;
 
     /**
      * Activity生命周期-创建，初始化UI和ViewModel，设置事件监听。
@@ -31,14 +34,15 @@ public class HomeActivity extends AppCompatActivity {
         // 绑定布局控件
         tvUsername = findViewById(R.id.tvUsername);
         btnLogout = findViewById(R.id.btnLogout);
-        // 初始化ViewModel
-        mainViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(MainViewModel.class);
+        btnDetail = findViewById(R.id.btnDetail);
+        // 初始化合并后的HomeViewModel
+        homeViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(HomeViewModel.class);
 
         // 观察ViewModel的LiveData，自动响应UI变化
-        mainViewModel.getCurrentUsername().observe(this, username -> {
+        homeViewModel.getCurrentUsername().observe(this, username -> {
             tvUsername.setText("当前用户：" + username);
         });
-        mainViewModel.getLogoutEvent().observe(this, logout -> {
+        homeViewModel.getLogoutEvent().observe(this, logout -> {
             if (logout != null && logout) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -46,8 +50,21 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        // 观察HomeViewModel的跳转Person对象，触发跳转
+        homeViewModel.getJumpPerson().observe(this, person -> {
+            if (person != null) {
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra("person", person);
+                startActivity(intent);
+            }
+        });
         // 退出登录按钮点击事件，调用ViewModel退出方法
-        btnLogout.setOnClickListener(v -> mainViewModel.logout());
+        btnLogout.setOnClickListener(v -> homeViewModel.logout());
+        // 跳转详情按钮点击事件，设置Person对象到ViewModel
+        btnDetail.setOnClickListener(v -> {
+            // 这里可根据实际业务动态生成Person对象
+            Person person = new Person("张三", 25);
+            homeViewModel.setJumpPerson(person);
+        });
     }
 } 
