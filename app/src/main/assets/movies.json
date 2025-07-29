@@ -1,0 +1,52 @@
+[
+  {
+    "title": "肖申克的救赎",
+    "year": 1994,
+    "rating": 9.7
+  },
+  {
+    "title": "霸王别姬",
+    "year": 1993,
+    "rating": 9.6
+  },
+  {
+    "title": "阿甘正传",
+    "year": 1994,
+    "rating": 9.5
+  },
+  {
+    "title": "泰坦尼克号",
+    "year": 1997,
+    "rating": 9.4
+  },
+  {
+    "title": "这个杀手不太冷",
+    "year": 1994,
+    "rating": 9.3
+  },
+  {
+    "title": "美丽人生",
+    "year": 1997,
+    "rating": 9.2
+  },
+  {
+    "title": "千与千寻",
+    "year": 2001,
+    "rating": 9.1
+  },
+  {
+    "title": "辛德勒的名单",
+    "year": 1993,
+    "rating": 9.0
+  },
+  {
+    "title": "盗梦空间",
+    "year": 2010,
+    "rating": 8.8
+  },
+  {
+    "title": "星际穿越",
+    "year": 2014,
+    "rating": 8.7
+  }
+]

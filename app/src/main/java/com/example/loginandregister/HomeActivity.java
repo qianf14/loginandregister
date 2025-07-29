@@ -24,6 +24,8 @@ public class HomeActivity extends AppCompatActivity {
     private MaterialButton btnLogout;
     // 跳转详情按钮
     private MaterialButton btnDetail;
+    // 查看电影列表按钮
+    private MaterialButton btnMovieList;
     // 主页面ViewModel（合并后的）
     private HomeViewModel homeViewModel;
 
@@ -42,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         tvUsername = findViewById(R.id.tvUsername);
         btnLogout = findViewById(R.id.btnLogout);
         btnDetail = findViewById(R.id.btnDetail);
+        btnMovieList = findViewById(R.id.btnMovieList);
         tusName = findViewById(R.id.tusName);
         tusAge = findViewById(R.id.tusAge);
         // 初始化合并后的HomeViewModel
@@ -97,6 +100,12 @@ public class HomeActivity extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "请输入有效的年龄", Toast.LENGTH_SHORT).show();
             }
+        });
+        
+        // 查看电影列表按钮点击事件
+        btnMovieList.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, MovieListActivity.class);
+            startActivity(intent);
         });
     }
 }
