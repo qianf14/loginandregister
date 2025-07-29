@@ -2,6 +2,7 @@ package com.example.loginandregister;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
  * 通过ViewModel实现业务逻辑与UI解耦。
  */
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
     // 用户名输入框外层布局（用于错误提示）
     private TextInputLayout tilUsername;
     // 密码输入框外层布局（用于错误提示）
@@ -97,4 +99,4 @@ public class LoginActivity extends AppCompatActivity {
             loginViewModel.onUsernameSelected(selectedUsername);
         });
     }
-} 
+}

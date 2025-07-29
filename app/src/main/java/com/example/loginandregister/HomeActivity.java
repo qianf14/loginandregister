@@ -2,6 +2,7 @@ package com.example.loginandregister;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout;
  * 通过HomeViewModel管理所有主页面相关数据和事件，MVVM解耦。
  */
 public class HomeActivity extends AppCompatActivity {
+    private static final String TAG = "HomeActivity";
     // 当前用户名显示控件
     private TextView tvUsername;
     // 退出登录按钮

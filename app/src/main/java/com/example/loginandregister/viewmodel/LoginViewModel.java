@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -26,6 +27,7 @@ import java.util.Set;
  * 支持MD5密码加密和带时效性的自动填充功能。
  */
 public class LoginViewModel extends AndroidViewModel {
+    private static final String TAG = "LoginViewModel";
     private static final int LOGIN_BUTTON_ID = 4;
     // 用户数据仓库
     private final UserRepository userRepository;
@@ -64,25 +66,32 @@ public class LoginViewModel extends AndroidViewModel {
      * 加载最近登录用户列表。
      */
     public void loadRecentUsers() {
+        Log.d(TAG, "loadRecentUsers: 开始加载最近用户列表");
         SharedPreferences sp = getApplication().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         Set<String> recent = sp.getStringSet("recent_users", new HashSet<>());
+        Log.d(TAG, "loadRecentUsers: 加载到 " + recent.size() + " 个用户");
         recentUsers.setValue(new ArrayList<>(recent));
+        Log.d(TAG, "loadRecentUsers: 最近用户列表加载完成");
     }
 
     /**
      * 用户名下拉选择时自动填充密码（带时效性检查）。
      */
     public void onUsernameSelected(String username) {
+        Log.d(TAG, "onUsernameSelected: 用户选择用户名 " + username);
         SharedPreferences sp = getApplication().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         boolean isRemembered = sp.getBoolean("remember_password", false);
+        Log.d(TAG, "onUsernameSelected: 记住密码状态 " + isRemembered);
         if (isRemembered) {
             // 获取带时效性检查的密码
             String validPassword = PasswordTimeUtils.getValidPassword(sp, username);
+            Log.d(TAG, "onUsernameSelected: 获取到有效密码 " + (validPassword != null && !validPassword.isEmpty()));
             autoFillPassword.setValue(validPassword);
             
             // 检查是否即将过期，给出提示
             if (PasswordTimeUtils.isPasswordExpiringSoon(sp, username)) {
                 long remainingMinutes = PasswordTimeUtils.getRemainingTime(sp, username);
+                Log.d(TAG, "onUsernameSelected: 密码即将过期，剩余时间 " + remainingMinutes + " 分钟");
                 toastMessage.setValue("密码自动填充将在" + remainingMinutes + "分钟后过期");
             }
         }
@@ -96,8 +105,10 @@ public class LoginViewModel extends AndroidViewModel {
      * @param rememberPassword 是否记住密码
      */
     public void login(String username, String password, boolean rememberPassword) {
+        Log.d(TAG, "login: 开始登录流程，用户名=" + username + ", 记住密码=" + rememberPassword);
         // 防抖检查
         if (!DebounceUtils.canClick(String.valueOf(LOGIN_BUTTON_ID))) {
+            Log.w(TAG, "login: 防抖检查失败，阻止重复点击");
             toastMessage.setValue("请稍后再试");
             return;
         }
@@ -108,29 +119,38 @@ public class LoginViewModel extends AndroidViewModel {
 
         // 输入校验
         if (TextUtils.isEmpty(username)) {
+            Log.d(TAG, "login: 用户名为空");
             usernameError.setValue("请输入用户名");
             return;
         }
         if (TextUtils.isEmpty(password)) {
+            Log.d(TAG, "login: 密码为空");
             passwordError.setValue("请输入密码");
             return;
         }
         if (!isPasswordValid(password)) {
+            Log.d(TAG, "login: 密码格式不正确");
             passwordError.setValue("密码至少8位，必须包含数字和字母");
             return;
         }
         
+        Log.d(TAG, "login: 输入验证通过，开始设置防抖");
         // 设置防抖状态
         DebounceUtils.setDebounce(String.valueOf(LOGIN_BUTTON_ID), () -> {
             // 防抖结束后的回调，可以在这里做一些清理工作
+            Log.d(TAG, "login: 防抖结束回调");
         });
         
         // 对密码进行MD5加密
         String encryptedPassword = MD5Utils.encrypt(password);
+        Log.d(TAG, "login: 密码加密完成");
         
         // 异步数据库校验（使用加密后的密码）
+        Log.d(TAG, "login: 开始数据库查询");
         userRepository.getUserByUsername(username, user -> {
+            Log.d(TAG, "login: 数据库查询回调，用户存在=" + (user != null));
             if (user != null && encryptedPassword.equals(user.getPassword())) {
+                Log.d(TAG, "login: 登录验证成功");
                 updateRecentUsers(username);
                 SharedPreferences sp = getApplication().getSharedPreferences("user_info", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
@@ -153,11 +173,14 @@ public class LoginViewModel extends AndroidViewModel {
                 loginResult.postValue(true);
                 // 修改: 登录成功后清除防抖状态
                 DebounceUtils.clearDebounce(String.valueOf(LOGIN_BUTTON_ID));
+                Log.d(TAG, "login: 登录流程完成，登录成功");
             } else {
+                Log.d(TAG, "login: 登录验证失败，用户名或密码错误");
                 toastMessage.postValue("用户名或密码错误");
                 loginResult.postValue(false);
                 // 登录失败时清除防抖状态，允许用户重新尝试
                 DebounceUtils.clearDebounce(String.valueOf(LOGIN_BUTTON_ID));
+                Log.d(TAG, "login: 登录流程完成，登录失败");
             }
         });
     }

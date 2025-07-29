@@ -1,6 +1,7 @@
 package com.example.loginandregister;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout;
  * 通过ViewModel实现业务逻辑与UI解耦。
  */
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterActivity";
     // 用户名输入框外层布局（用于错误提示）
     private TextInputLayout tilUsername;
     // 密码输入框外层布局（用于错误提示）
@@ -72,4 +74,4 @@ public class RegisterActivity extends AppCompatActivity {
             registerViewModel.register(username, password, confirmPassword);
         });
     }
-} 
+}

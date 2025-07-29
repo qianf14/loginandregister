@@ -1,6 +1,7 @@
 package com.example.loginandregister;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.example.loginandregister.viewmodel.DetailViewModel;
  * 通过ViewModel实现数据与UI解耦。
  */
 public class DetailActivity extends AppCompatActivity {
+    private static final String TAG = "DetailActivity";
     // 展示Person信息的TextView
     private TextView tvInfo;
     // 详情页面ViewModel
@@ -38,4 +40,4 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-} 
+}
