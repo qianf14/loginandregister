@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class MovieListActivity extends AppCompatActivity {
     private static final String TAG = "MovieListActivity";
     
+    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
     private List<Movie> movieList;
@@ -33,6 +35,10 @@ public class MovieListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_list);
         
         Log.d(TAG, "onCreate: 电影列表页面创建");
+        
+        // 设置Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         
         // 设置标题栏
         if (getSupportActionBar() != null) {
