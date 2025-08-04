@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class MovieListActivity extends AppCompatActivity {
     
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private MovieAdapter movieAdapter;
     private MovieListViewModel movieListViewModel;
 
@@ -77,10 +79,26 @@ public class MovieListActivity extends AppCompatActivity {
     private void initViews() {
         Log.d(TAG, "initViews: 初始化视图组件");
         recyclerView = findViewById(R.id.recyclerView);
+        progressBar = findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         movieAdapter = new MovieAdapter();
         recyclerView.setAdapter(movieAdapter);
+        
+        // 观察加载状态
+        movieListViewModel.getLoading().observe(this, isLoading -> {
+            if (isLoading != null) {
+                if (isLoading) {
+                    // 显示加载指示器
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                    recyclerView.setVisibility(RecyclerView.GONE);
+                } else {
+                    // 隐藏加载指示器
+                    progressBar.setVisibility(ProgressBar.GONE);
+                    recyclerView.setVisibility(RecyclerView.VISIBLE);
+                }
+            }
+        });
     }
     
     @Override

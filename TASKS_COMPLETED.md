@@ -228,5 +228,34 @@
 - app/src/main/java/com/example/loginandregister/viewmodel/movie/MovieListViewModel.java
 - app/src/main/AndroidManifest.xml
 
+## 8. 线程池管理和异步JSON解析
+**完成时间**: 2025/8/4
+
+**任务描述**: 
+将JSON格式解析操作放在子线程执行，并使用线程池统一管理所有子线程，提高应用性能和响应性。
+
+**具体实现**:
+1. 创建ThreadPoolUtils工具类，用于统一管理应用中的所有子线程任务
+2. 修改JsonUtils类，添加异步加载方法和支持回调接口
+3. 更新MovieListViewModel，使用异步方法加载电影数据
+4. 添加加载状态管理，在UI中显示加载指示器
+5. 实现完善的错误处理机制
+
+**优化效果**:
+- 性能提升：JSON解析操作在子线程中执行，不会阻塞主线程
+- 资源管理：使用线程池统一管理子线程，避免频繁创建和销毁线程
+- 用户体验：添加加载状态指示器，提供更好的用户反馈
+- 错误处理：实现完善的异步操作错误处理机制
+- 可维护性：代码结构更清晰，便于后续维护和扩展
+
+## 相关文件列表
+
+### 线程池管理和异步JSON解析相关文件
+- app/src/main/java/com/example/loginandregister/utils/ThreadPoolUtils.java
+- app/src/main/java/com/example/loginandregister/utils/JsonUtils.java
+- app/src/main/java/com/example/loginandregister/viewmodel/movie/MovieListViewModel.java
+- app/src/main/java/com/example/loginandregister/ui/movie/MovieListActivity.java
+- app/src/main/res/layout/activity_movie_list.xml
+
 ## 备注
-所有功能均已实现并集成到现有应用中，项目应该能够正常编译和运行。
+所有功能均已实现并集成到现有应用中，项目能够正常编译和运行。

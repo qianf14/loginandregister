@@ -1,6 +1,8 @@
 package com.example.loginandregister.utils;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.example.loginandregister.model.Movie;
@@ -19,6 +21,23 @@ import java.util.List;
  */
 public class JsonUtils {
     private static final String TAG = "JsonUtils";
+    
+    /**
+     * 加载电影数据回调接口
+     */
+    public interface LoadMoviesCallback {
+        /**
+         * 加载成功回调
+         * @param movies 电影列表
+         */
+        void onSuccess(List<Movie> movies);
+        
+        /**
+         * 加载失败回调
+         * @param error 错误信息
+         */
+        void onError(Exception error);
+    }
 
     /**
      * 从assets目录读取movies.json文件并解析为Movie对象列表
@@ -57,6 +76,58 @@ public class JsonUtils {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+    /**
+     * 按评分对电影列表进行排序
+     *
+     * @param movies  电影列表
+     * @param ascending 是否升序排列
+     * @return 排序后的电影列表
+     */
+    /**
+     * 异步从assets目录读取movies.json文件并解析为Movie对象列表
+     *
+     * @param context  应用上下文
+     * @param callback 加载结果回调
+     */
+    public static void loadMoviesFromAssetsAsync(Context context, LoadMoviesCallback callback) {
+        Log.d(TAG, "loadMoviesFromAssetsAsync: 开始异步加载电影数据");
+        
+        // 使用线程池执行异步任务
+        ThreadPoolUtils.getInstance().execute(() -> {
+            try {
+                // 从assets目录读取movies.json文件
+                InputStream is = context.getAssets().open("movies.json");
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                String json = new String(buffer, "UTF-8");
+                Log.d(TAG, "loadMoviesFromAssetsAsync: JSON文件读取成功，大小=" + size + "字节");
+
+                // 使用Gson解析JSON为Movie对象列表
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Movie>>() {}.getType();
+                List<Movie> movies = gson.fromJson(json, listType);
+                Log.d(TAG, "loadMoviesFromAssetsAsync: JSON解析成功，电影数量=" + movies.size());
+                
+                // 切换到主线程回调成功结果
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (callback != null) {
+                        callback.onSuccess(movies);
+                    }
+                });
+            } catch (Exception ex) {
+                Log.e(TAG, "loadMoviesFromAssetsAsync: 加载电影数据失败", ex);
+                // 切换到主线程回调错误结果
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (callback != null) {
+                        callback.onError(ex);
+                    }
+                });
+            }
+        });
     }
 
     /**
