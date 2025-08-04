@@ -86,7 +86,7 @@
 - app/src/main/java/com/example/loginandregister/model/Movie.java
 - app/src/main/java/com/example/loginandregister/utils/JsonUtils.java
 - app/src/main/java/com/example/loginandregister/adapter/MovieAdapter.java
-- app/src/main/java/com/example/loginandregister/MovieListActivity.java
+- app/src/main/java/com/example/loginandregister/ui/movie/MovieListActivity.java
 - app/src/main/res/layout/activity_main.xml
 - app/src/main/res/layout/activity_movie_list.xml
 - app/src/main/res/layout/item_movie.xml
@@ -191,6 +191,42 @@
 
 ### README文档更新相关文件
 - README.md
+
+## 7. 包结构重构与MVVM架构优化
+**完成时间**: 2025/8/4
+
+**任务描述**: 
+重构项目包结构，将Activity类移动到ui包中，ViewModel类保留在viewmodel包中，并为电影列表功能创建专门的子包，以提高代码组织性和可维护性。同时为电影列表功能创建独立的ViewModel，进一步优化MVVM架构。
+
+**具体实现**:
+1. 创建新的包结构：ui包用于存放Activity类，viewmodel包用于存放ViewModel类
+2. 为电影列表功能创建专门的子包：ui/movie和viewmodel/movie
+3. 将所有Activity类移动到相应的ui包中
+4. 创建MovieListViewModel用于管理电影列表页面的数据逻辑
+5. 更新MovieListActivity以使用新的MovieListViewModel
+6. 更新所有文件的import语句以适应新的包结构
+7. 更新AndroidManifest.xml中的Activity声明路径
+
+**重构效果**:
+- 包结构更清晰：Activity和ViewModel分离到不同的包中
+- 职责更明确：Activity专注于UI展示，ViewModel处理数据逻辑
+- 可维护性提升：代码组织更合理，便于后续开发和维护
+- 架构更规范：遵循MVVM设计模式，提高代码质量
+
+## 相关文件列表
+
+### 包结构重构相关文件
+- app/src/main/java/com/example/loginandregister/ui/LoginActivity.java
+- app/src/main/java/com/example/loginandregister/ui/RegisterActivity.java
+- app/src/main/java/com/example/loginandregister/ui/HomeActivity.java
+- app/src/main/java/com/example/loginandregister/ui/DetailActivity.java
+- app/src/main/java/com/example/loginandregister/ui/movie/MovieListActivity.java
+- app/src/main/java/com/example/loginandregister/viewmodel/LoginViewModel.java
+- app/src/main/java/com/example/loginandregister/viewmodel/RegisterViewModel.java
+- app/src/main/java/com/example/loginandregister/viewmodel/HomeViewModel.java
+- app/src/main/java/com/example/loginandregister/viewmodel/DetailViewModel.java
+- app/src/main/java/com/example/loginandregister/viewmodel/movie/MovieListViewModel.java
+- app/src/main/AndroidManifest.xml
 
 ## 备注
 所有功能均已实现并集成到现有应用中，项目应该能够正常编译和运行。

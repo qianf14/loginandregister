@@ -1,4 +1,4 @@
-package com.example.loginandregister;
+package com.example.loginandregister.ui;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.loginandregister.R;
 import com.example.loginandregister.model.Person;
 import com.example.loginandregister.viewmodel.DetailViewModel;
 

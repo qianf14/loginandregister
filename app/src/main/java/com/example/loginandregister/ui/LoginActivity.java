@@ -1,4 +1,4 @@
-package com.example.loginandregister;
+package com.example.loginandregister.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.loginandregister.R;
 import com.example.loginandregister.viewmodel.LoginViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;

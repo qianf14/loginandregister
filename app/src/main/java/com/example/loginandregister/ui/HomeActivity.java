@@ -1,4 +1,4 @@
-package com.example.loginandregister;
+package com.example.loginandregister.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.loginandregister.R;
 import com.example.loginandregister.viewmodel.HomeViewModel;
 import com.example.loginandregister.model.Person;
+import com.example.loginandregister.ui.movie.MovieListActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 

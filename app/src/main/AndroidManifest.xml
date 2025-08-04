@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Loginandregister">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".MovieListActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.HomeActivity" />
+        <activity android:name=".ui.DetailActivity" />
+        <activity android:name=".ui.movie.MovieListActivity" />
 
     </application>
 

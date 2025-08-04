@@ -1,4 +1,4 @@
-package com.example.loginandregister;
+package com.example.loginandregister.ui.movie;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,12 +8,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.loginandregister.R;
 import com.example.loginandregister.adapter.MovieAdapter;
 import com.example.loginandregister.model.Movie;
-import com.example.loginandregister.utils.JsonUtils;
+import com.example.loginandregister.viewmodel.movie.MovieListViewModel;
 
 import java.util.List;
 
@@ -26,8 +28,7 @@ public class MovieListActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
-    private List<Movie> movieList;
-    private boolean isAscending = false; // 默认降序排列
+    private MovieListViewModel movieListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,9 @@ public class MovieListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_list);
         
         Log.d(TAG, "onCreate: 电影列表页面创建");
+        
+        // 初始化ViewModel
+        movieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
         
         // 设置Toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -49,8 +53,22 @@ public class MovieListActivity extends AppCompatActivity {
         // 初始化视图
         initViews();
         
+        // 观察电影数据变化
+        movieListViewModel.getMovies().observe(this, movies -> {
+            if (movies != null) {
+                movieAdapter.setMovies(movies);
+            }
+        });
+        
+        // 观察Toast消息
+        movieListViewModel.getToastMessage().observe(this, message -> {
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+        
         // 加载电影数据
-        loadMovies();
+        movieListViewModel.loadMovies(this);
     }
     
     /**
@@ -63,35 +81,6 @@ public class MovieListActivity extends AppCompatActivity {
         
         movieAdapter = new MovieAdapter();
         recyclerView.setAdapter(movieAdapter);
-    }
-    
-    /**
-     * 从JSON文件加载电影数据
-     */
-    private void loadMovies() {
-        Log.d(TAG, "loadMovies: 开始加载电影数据");
-        movieList = JsonUtils.loadMoviesFromAssets(this);
-        
-        if (movieList != null && !movieList.isEmpty()) {
-            // 默认按评分降序排列
-            movieList = JsonUtils.sortMoviesByRating(movieList, isAscending);
-            movieAdapter.setMovies(movieList);
-            Log.d(TAG, "loadMovies: 电影数据加载完成，数量=" + movieList.size());
-        } else {
-            Log.w(TAG, "loadMovies: 未加载到电影数据");
-            Toast.makeText(this, "未找到电影数据", Toast.LENGTH_SHORT).show();
-        }
-    }
-    
-    /**
-     * 刷新电影列表显示
-     */
-    private void refreshMovieList() {
-        Log.d(TAG, "refreshMovieList: 刷新电影列表显示");
-        if (movieList != null) {
-            List<Movie> sortedMovies = JsonUtils.sortMoviesByRating(movieList, isAscending);
-            movieAdapter.setMovies(sortedMovies);
-        }
     }
     
     @Override
@@ -112,14 +101,12 @@ public class MovieListActivity extends AppCompatActivity {
             return true;
         } else if (itemId == R.id.action_sort_asc) {
             // 按评分升序排列
-            isAscending = true;
-            refreshMovieList();
+            movieListViewModel.sortMoviesByRating(true);
             Toast.makeText(this, "按评分升序排列", Toast.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.action_sort_desc) {
             // 按评分降序排列
-            isAscending = false;
-            refreshMovieList();
+            movieListViewModel.sortMoviesByRating(false);
             Toast.makeText(this, "按评分降序排列", Toast.LENGTH_SHORT).show();
             return true;
         } else {
