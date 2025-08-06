@@ -257,5 +257,97 @@
 - app/src/main/java/com/example/loginandregister/ui/movie/MovieListActivity.java
 - app/src/main/res/layout/activity_movie_list.xml
 
+## 9. 笔记功能开发
+**完成时间**: 2025/8/6
+
+**任务描述**: 
+实现笔记功能，支持Markdown格式编辑和文件导出。
+
+**具体实现**:
+1. 创建ui/note包和viewmodel/note包
+2. 创建NoteActivity用于笔记编辑和导出
+3. 创建NoteViewModel用于管理笔记数据逻辑
+4. 创建NoteFileUtils用于笔记文件操作
+5. 创建activity_note.xml布局文件
+6. 创建menu_note.xml菜单文件
+7. 在HomeActivity中添加笔记功能入口
+8. 在AndroidManifest.xml中注册NoteActivity
+
+**功能特点**:
+- 支持Markdown格式编辑
+- 实时保存笔记内容到内部存储
+- 应用启动时自动加载上次保存的笔记
+- 支持将笔记导出到外部存储
+- 简洁直观的编辑界面
+- 使用线程池异步执行文件操作，避免阻塞主线程
+
+## 相关文件列表
+
+### 笔记功能相关文件
+- app/src/main/java/com/example/loginandregister/ui/note/NoteActivity.java
+- app/src/main/java/com/example/loginandregister/viewmodel/note/NoteViewModel.java
+- app/src/main/java/com/example/loginandregister/utils/NoteFileUtils.java
+- app/src/main/res/layout/activity_note.xml
+- app/src/main/res/menu/menu_note.xml
+- app/src/main/res/layout/activity_main.xml
+- app/src/main/java/com/example/loginandregister/ui/HomeActivity.java
+- app/src/main/AndroidManifest.xml
+
+## 10. Markdown笔记功能增强
+**完成时间**: 2025/8/6
+
+**任务描述**: 
+增强笔记功能，支持Markdown格式解析、语法高亮、双模式编辑预览界面，以及选择手机存储位置导出笔记。
+
+**具体实现**:
+1. 添加CommonMark Markdown解析库依赖
+2. 创建MarkdownUtils工具类用于Markdown解析
+3. 重新设计activity_note.xml布局，实现编辑/预览双模式界面
+4. 增强NoteActivity以支持双模式切换和实时预览
+5. 添加状态栏适配支持
+6. 增强导出功能，支持选择手机存储位置
+7. 在AndroidManifest.xml中添加必要的存储权限
+
+**功能特点**:
+- 支持Markdown格式实时解析和预览
+- 双模式界面：编辑模式和预览模式
+- 支持常见的Markdown语法（标题、列表、链接、图片、代码块等）
+- 状态栏适配，确保内容不与状态栏重合
+- 支持选择手机存储位置导出笔记
+- 符合Material Design 3设计规范
+
+## 相关文件列表
+
+### Markdown笔记功能增强相关文件
+- app/build.gradle
+- app/src/main/java/com/example/loginandregister/utils/MarkdownUtils.java
+- app/src/main/java/com/example/loginandregister/ui/note/NoteActivity.java
+- app/src/main/res/layout/activity_note.xml
+- app/src/main/AndroidManifest.xml
+
+## 11. 笔记功能主题统一和导航栏字体颜色设置
+**完成时间**: 2025/8/6
+
+**任务描述**: 
+统一笔记页面主题与应用整体主题，设置白天模式下Toolbar字体为黑色，并完善保存和导出选项。
+
+**具体实现**:
+1. 在activity_note.xml中添加统一的Toolbar组件
+2. 修改NoteActivity.java，添加Toolbar设置和白天模式字体颜色控制
+3. 确保笔记页面主题与应用其他页面保持一致
+4. 完善menu_note.xml配置，确保保存和导出选项清晰可见
+
+**功能特点**:
+- 笔记页面Toolbar与应用整体风格完全统一
+- 白天模式下Toolbar字体显示为黑色，夜间模式下为白色
+- 保存和导出选项在Toolbar菜单中清晰可见且功能正常
+- 符合Material Design 3的设计规范
+
+## 相关文件列表
+
+### 笔记功能主题统一和导航栏字体颜色设置相关文件
+- app/src/main/res/layout/activity_note.xml
+- app/src/main/java/com/example/loginandregister/ui/note/NoteActivity.java
+
 ## 备注
 所有功能均已实现并集成到现有应用中，项目能够正常编译和运行。

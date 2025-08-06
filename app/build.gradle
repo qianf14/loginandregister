@@ -43,4 +43,10 @@ dependencies {
     implementation "androidx.room:room-runtime:2.5.2"
     annotationProcessor "androidx.room:room-compiler:2.5.2"
     implementation 'com.google.code.gson:gson:2.8.8'
+    // Markdown解析库
+    implementation 'com.atlassian.commonmark:commonmark:0.17.0'
+    // Markdown表格支持
+    implementation 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.17.0'
+    // Markdown strikethrough支持
+    implementation 'com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.17.0'
 }

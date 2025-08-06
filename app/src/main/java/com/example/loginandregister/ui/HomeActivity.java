@@ -28,6 +28,8 @@ public class HomeActivity extends AppCompatActivity {
     private MaterialButton btnDetail;
     // 查看电影列表按钮
     private MaterialButton btnMovieList;
+    // 笔记按钮
+    private MaterialButton btnNote;
     // 主页面ViewModel（合并后的）
     private HomeViewModel homeViewModel;
 
@@ -47,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         btnDetail = findViewById(R.id.btnDetail);
         btnMovieList = findViewById(R.id.btnMovieList);
+        btnNote = findViewById(R.id.btnNote);
         tusName = findViewById(R.id.tusName);
         tusAge = findViewById(R.id.tusAge);
         // 初始化合并后的HomeViewModel
@@ -107,6 +110,12 @@ public class HomeActivity extends AppCompatActivity {
         // 查看电影列表按钮点击事件
         btnMovieList.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, MovieListActivity.class);
+            startActivity(intent);
+        });
+        
+        // 笔记按钮点击事件
+        btnNote.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, com.example.loginandregister.ui.note.NoteActivity.class);
             startActivity(intent);
         });
     }

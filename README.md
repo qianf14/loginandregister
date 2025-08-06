@@ -31,6 +31,7 @@
 - 显示当前登录用户
 - 支持跳转到详情页面
 - 支持查看电影列表
+- 支持笔记功能
 - 支持退出登录
 
 ### 电影列表功能
@@ -38,6 +39,17 @@
 - 按评分排序（升序/降序）
 - 美观的卡片式布局展示电影信息
 - 支持返回上一页导航
+
+### 笔记功能
+- 支持Markdown格式编辑和语法高亮
+- 实时保存笔记内容到内部存储
+- 应用启动时自动加载上次保存的笔记
+- 支持将笔记导出到外部存储
+- 双模式界面：编辑模式和预览模式
+- 支持选择手机存储位置导出笔记
+- 笔记页面Toolbar与应用整体风格完全统一
+- 白天模式下Toolbar字体显示为黑色，夜间模式下为白色
+- 简洁直观的编辑界面
 
 ### 安全特性
 - 密码规则验证（最少8位，必须包含数字和字母）
@@ -100,6 +112,12 @@
    - 在主页面点击"退出登录"按钮
    - 将返回登录界面
 
+5. **使用笔记功能**
+   - 登录后在主页面点击"笔记"按钮
+   - 在笔记页面编辑内容（支持Markdown格式）
+   - 点击保存按钮或返回按钮自动保存笔记
+   - 点击导出按钮将笔记导出到外部存储
+
 ## 项目结构
 
 ```
@@ -108,8 +126,11 @@ app/src/main/
 │   ├── model/                    // 数据实体类（User.java, Movie.java）
 │   ├── repository/               // 数据仓库
 │   ├── viewmodel/                // ViewModel 层
+│   │   └── note/                 // 笔记功能ViewModel
 │   ├── adapter/                  // RecyclerView 适配器（MovieAdapter.java）
 │   ├── utils/                    // 工具类（JsonUtils.java, DebounceUtils.java等）
+│   ├── ui/                       // Activity层
+│   │   └── note/                 // 笔记功能Activity
 │   ├── LoginActivity.java        // 登录页面
 │   ├── RegisterActivity.java     // 注册页面
 │   ├── HomeActivity.java         // 主页面
@@ -124,9 +145,11 @@ app/src/main/
     │   ├── activity_main.xml         // 主页面布局
     │   ├── activity_detail.xml       // 详情页面布局
     │   ├── activity_movie_list.xml   // 电影列表页面布局
+    │   ├── activity_note.xml         // 笔记页面布局
     │   └── item_movie.xml            // 电影项布局
     ├── menu/
-    │   └── menu_movie_list.xml       // 电影列表菜单
+    │   ├── menu_movie_list.xml       // 电影列表菜单
+    │   └── menu_note.xml             // 笔记页面菜单
     └── values/
         ├── colors.xml
         ├── strings.xml
