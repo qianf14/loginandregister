@@ -256,8 +256,12 @@ public class NoteActivity extends AppCompatActivity {
             saveNote();
             return true;
         } else if (id == R.id.action_export) {
-            // 导出笔记
+            // 导出笔记为文本
             exportNote();
+            return true;
+        } else if (id == R.id.action_export_pdf) {
+            // 导出笔记为PDF
+            exportNoteAsPdf();
             return true;
         }
         
@@ -265,11 +269,19 @@ public class NoteActivity extends AppCompatActivity {
     }
     
     /**
-     * 导出笔记
+     * 导出笔记为文本
      */
     private void exportNote() {
         String content = etNoteContent.getText().toString();
         noteViewModel.exportNote(content);
+    }
+    
+    /**
+     * 导出笔记为PDF
+     */
+    private void exportNoteAsPdf() {
+        String content = etNoteContent.getText().toString();
+        noteViewModel.exportNoteAsPdf(content);
     }
 
     /**

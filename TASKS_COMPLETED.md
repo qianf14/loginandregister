@@ -349,5 +349,36 @@
 - app/src/main/res/layout/activity_note.xml
 - app/src/main/java/com/example/loginandregister/ui/note/NoteActivity.java
 
+## 12. 添加PDF导出功能
+**完成时间**: 2025/8/6
+
+**任务描述**: 
+为笔记功能添加导出为PDF的功能，保留Markdown的渲染效果。
+
+**具体实现**:
+1. 在menu_note.xml中添加"导出PDF"菜单选项
+2. 修改NoteActivity.java，添加PDF导出菜单点击事件处理
+3. 修改NoteViewModel.java，添加PDF导出方法
+4. 修改NoteFileUtils.java，添加PDF导出功能实现
+5. 更新导出文件命名规则，PDF文件使用.pdf扩展名
+6. 修复NoteFileUtils.java中的编译错误，移除了不存在的PdfConverter导入
+7. 修复PDF导出功能，使用Android原生PdfDocument类创建真正的PDF文件
+8. 增强PDF导出功能，将渲染后的Markdown内容导出为PDF
+9. 重新实现PDF导出功能，使用PdfDocument类直接绘制内容
+
+**功能特点**:
+- 用户可以通过菜单选项将笔记导出为PDF文件
+- PDF文件保留Markdown的渲染效果
+- PDF文件保存在与文本文件相同的目录中
+- 功能与现有导出功能保持一致的用户体验
+
+## 相关文件列表
+
+### PDF导出功能相关文件
+- app/src/main/res/menu/menu_note.xml
+- app/src/main/java/com/example/loginandregister/ui/note/NoteActivity.java
+- app/src/main/java/com/example/loginandregister/viewmodel/note/NoteViewModel.java
+- app/src/main/java/com/example/loginandregister/utils/NoteFileUtils.java
+
 ## 备注
 所有功能均已实现并集成到现有应用中，项目能够正常编译和运行。

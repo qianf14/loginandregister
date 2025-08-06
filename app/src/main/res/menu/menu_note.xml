@@ -10,8 +10,14 @@
 
     <item
         android:id="@+id/action_export"
-        android:title="导出"
+        android:title="导出文本"
         android:icon="@android:drawable/ic_menu_share"
+        app:showAsAction="ifRoom" />
+        
+    <item
+        android:id="@+id/action_export_pdf"
+        android:title="导出PDF"
+        android:icon="@android:drawable/ic_menu_upload"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -107,7 +107,7 @@ public class NoteViewModel extends AndroidViewModel {
     }
 
     /**
-     * 导出笔记内容
+     * 导出笔记内容为文本
      * @param content 笔记内容
      */
     public void exportNote(String content) {
@@ -123,6 +123,28 @@ public class NoteViewModel extends AndroidViewModel {
             @Override
             public void onError(Exception e) {
                 Log.e(TAG, "exportNote: 笔记导出失败", e);
+                exportResult.postValue(false);
+            }
+        });
+    }
+    
+    /**
+     * 导出笔记内容为PDF
+     * @param content 笔记内容
+     */
+    public void exportNoteAsPdf(String content) {
+        Log.d(TAG, "exportNoteAsPdf: 开始导出PDF笔记");
+        
+        NoteFileUtils.exportNoteAsPdfAsync(getApplication(), content, new NoteFileUtils.NoteExportCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "exportNoteAsPdf: PDF笔记导出成功");
+                exportResult.postValue(true);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "exportNoteAsPdf: PDF笔记导出失败", e);
                 exportResult.postValue(false);
             }
         });
