@@ -91,6 +91,16 @@
         android:text="笔记"
         android:textSize="16sp"
         app:cornerRadius="8dp"
+        android:layout_marginBottom="160dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCircleProgress"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="环形进度条演示"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
         android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

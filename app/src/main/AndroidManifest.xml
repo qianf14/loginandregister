@@ -35,6 +35,7 @@
         <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.movie.MovieListActivity" />
         <activity android:name=".ui.note.NoteActivity" />
+        <activity android:name=".ui.CircleProgressDemoActivity" />
 
     </application>
 
